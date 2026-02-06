@@ -85,17 +85,17 @@ class SpaceShooterGame {
         window.addEventListener('touchstart', (e) => {
             this.touchActive = true;
             this.handleTouchStart(e);
-        });
+        }, { passive: false });
         window.addEventListener('touchmove', (e) => {
             this.handleTouchMove(e);
             e.preventDefault();
-        });
+        }, { passive: false });
         window.addEventListener('touchend', () => {
             this.touchActive = false;
             if (this.player) {
                 this.player.isShooting = false;
             }
-        });
+        }, { passive: false });
 
         // Window resize
         window.addEventListener('resize', () => this.resizeCanvas());
