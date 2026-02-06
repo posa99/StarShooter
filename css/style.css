@@ -341,12 +341,11 @@ html, body {
     position: absolute;
     top: 15px;
     left: 15px;
-    right: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
+    right: auto;
+    width: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
     pointer-events: auto;
     z-index: 10;
 }
@@ -774,19 +773,30 @@ html, body {
     }
 
     .hud {
-        flex-direction: column;
-        top: 10px;
+        grid-template-columns: 1fr 1fr;
+        top: 60px;
         left: 10px;
-        right: 10px;
+        right: auto;
+        width: auto;
+        gap: 8px;
     }
 
     .hud-item {
-        width: 100%;
-        justify-content: space-between;
+        width: auto;
+        justify-content: flex-start;
+        font-size: 0.8rem;
+        padding: 6px 10px;
     }
 
-    #pause-btn {
-        width: 100%;
+    .pause-button-container {
+        top: 15px;
+        left: 15px;
+    }
+
+    .btn-pause {
+        min-width: 80px;
+        padding: 8px 16px;
+        font-size: 12px;
     }
 
     .creator-info {
@@ -1006,9 +1016,10 @@ html, body {
 /* Pause Button Container */
 .pause-button-container {
     position: absolute;
-    bottom: 20px;
-    right: 15px;
-    z-index: 15;
+    top: 15px;
+    left: 15px;
+    z-index: 20;
+    pointer-events: auto;
 }
 
 .btn-pause {
@@ -1038,8 +1049,8 @@ html, body {
 /* Responsive Design for Mobile */
 @media (max-width: 768px) {
     .pause-button-container {
-        bottom: 15px;
-        right: 10px;
+        top: 15px;
+        left: 15px;
     }
     
     .btn-pause {
@@ -1049,13 +1060,16 @@ html, body {
     }
     
     .hud {
+        grid-template-columns: 1fr 1fr;
         top: 60px;
+        left: 10px;
         gap: 10px;
     }
     
     .hud-item {
         font-size: 12px;
         padding: 8px 12px;
+        width: auto;
     }
     
     .hud-item .label {
@@ -1090,8 +1104,8 @@ html, body {
 
 @media (max-width: 480px) {
     .pause-button-container {
-        bottom: 10px;
-        right: 8px;
+        top: 12px;
+        left: 8px;
     }
     
     .btn-pause {
@@ -1101,18 +1115,18 @@ html, body {
     }
     
     .hud {
+        grid-template-columns: 1fr 1fr;
         top: 55px;
         left: 8px;
-        right: 8px;
-        gap: 8px;
-        flex-wrap: wrap;
+        right: auto;
+        width: auto;
+        gap: 6px;
     }
     
     .hud-item {
-        font-size: 11px;
-        padding: 6px 10px;
-        flex: 1;
-        min-width: 80px;
+        font-size: 10px;
+        padding: 5px 8px;
+        width: auto;
     }
 
     .mobile-controls-container {
@@ -1141,6 +1155,8 @@ html, body {
         height: 70px;
         font-size: 0.65rem;
         border-width: 2px;
+    }
+    
     .health-bar {
         width: 60px;
     }
@@ -1184,8 +1200,14 @@ html, body {
     }
 
     .pause-button-container {
-        bottom: 145px;
-        right: 8px;
+        top: 12px;
+        left: 8px;
+    }
+
+    .btn-pause {
+        min-width: 60px;
+        padding: 5px 10px;
+        font-size: 10px;
     }
 
     .touch-zone {
@@ -1193,24 +1215,18 @@ html, body {
     }
 
     .hud {
+        grid-template-columns: 1fr 1fr;
         top: 50px;
         left: 8px;
-        right: 8px;
+        right: auto;
+        width: auto;
         gap: 5px;
-        flex-wrap: wrap;
     }
 
     .hud-item {
-        font-size: 10px;
-        padding: 5px 8px;
-        flex: 0 0 calc(33.333% - 5px);
-        min-width: unset;
-    }
-
-    .btn-pause {
-        min-width: 65px;
-        padding: 5px 10px;
-        font-size: 10px;
+        font-size: 9px;
+        padding: 4px 6px;
+        width: auto;
     }
 
     .health-bar {
