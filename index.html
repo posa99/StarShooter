@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="description" content="Space Shooter - An arcade game where you defend Earth from alien invaders!">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%231a1a1a' width='192' height='192'/><circle cx='96' cy='96' r='60' fill='%2300d4ff'/><polygon points='96,50 110,90 96,100 82,90' fill='%23ff006e'/></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%231a1a1a' width='192' height='192'/><circle cx='96' cy='96' r='60' fill='%2300d4ff'/><polygon points='96,50 110,90 96,100 82,90' fill='%23ff006e'/></svg>">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <title>Space Shooter - Arcade Game</title>
+</head>
+<body>
+    <div id="game-container">
+        <!-- Main Canvas -->
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- UI Overlay -->
+        <div id="ui-overlay" class="ui-overlay">
+            <!-- Start Screen -->
+            <div id="start-screen" class="screen active">
+                <div class="screen-content">
+                    <div class="title">SPACE SHOOTER</div>
+                    <div class="subtitle">Defend Earth from Alien Invaders</div>
+                    
+                    <div class="instructions-panel">
+                        <div class="instructions-section">
+                            <h3>DESKTOP CONTROLS</h3>
+                            <p>Arrow Keys or WASD - Move ship<br>
+                            Mouse Position - Aim direction<br>
+                            Spacebar - Shoot</p>
+                        </div>
+                        <div class="instructions-section">
+                            <h3>MOBILE CONTROLS</h3>
+                            <p>Tap and Hold - Move to position<br>
+                            Hold in zone - Auto-shoot<br>
+                            Release - Stop moving</p>
+                        </div>
+                        <div class="instructions-section">
+                            <h3>GAME FEATURES</h3>
+                            <p>Collect Power-ups: Shield, Rapid Fire<br>
+                            Build Combos for bonus points<br>
+                            Survive waves to progress</p>
+                        </div>
+                    </div>
+
+                    <div class="difficulty-selector">
+                        <label for="difficulty">SELECT DIFFICULTY:</label>
+                        <select id="difficulty">
+                            <option value="easy">EASY - Learning Mode</option>
+                            <option value="normal" selected>NORMAL - Balanced</option>
+                            <option value="hard">HARD - Challenging</option>
+                            <option value="extreme">EXTREME - Insane</option>
+                        </select>
+                    </div>
+
+                    <button id="start-btn" class="btn btn-primary">START GAME</button>
+                    <button id="settings-btn" class="btn btn-secondary">SETTINGS</button>
+                </div>
+            </div>
+            
+            <!-- Game Screen (HUD) -->
+            <div id="game-screen" class="screen">
+                <div class="hud">
+                    <div class="hud-item score-display">
+                        <span class="label">SCORE:</span>
+                        <span id="score" class="value">0</span>
+                    </div>
+                    <div class="hud-item wave-display">
+                        <span class="label">WAVE:</span>
+                        <span id="wave" class="value">1</span>
+                    </div>
+                    <div class="hud-item scaling-display">
+                        <span class="label">SCALING:</span>
+                        <span id="scaling" class="value">1.0x</span>
+                    </div>
+                    <div class="hud-item combo-display">
+                        <span class="label">COMBO:</span>
+                        <span id="combo" class="value">x1</span>
+                    </div>
+                    <div class="hud-item lives-display">
+                        <span class="label">LIVES:</span>
+                        <span id="lives" class="value">3</span>
+                    </div>
+                    <div class="hud-item health-display">
+                        <span class="label">HEALTH:</span>
+                        <div id="health-bar" class="health-bar">
+                            <div id="health-fill" class="health-fill"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="power-ups-display">
+                    <div id="shield-indicator" class="power-up-item hidden">SHIELD</div>
+                    <div id="rapidfire-indicator" class="power-up-item hidden">RAPID FIRE</div>
+                </div>
+                <div class="pause-button-container">
+                    <button id="pause-btn" class="btn btn-pause">PAUSE</button>
+                </div>
+                <div id="touch-controls" class="touch-controls hidden">
+                    <div id="touch-zone" class="touch-zone"></div>
+                </div>
+            </div>
+            
+            <!-- Pause Screen -->
+            <div id="pause-screen" class="screen">
+                <div class="screen-content">
+                    <div class="title">PAUSED</div>
+                    <button id="resume-btn" class="btn btn-primary">RESUME</button>
+                    <button id="menu-btn" class="btn btn-secondary">MAIN MENU</button>
+                </div>
+            </div>
+            
+            <!-- Game Over Screen -->
+            <div id="gameover-screen" class="screen">
+                <div class="screen-content">
+                    <div class="title">GAME OVER</div>
+                    <div class="final-score">
+                        <div class="score-item">
+                            <span class="label">FINAL SCORE:</span>
+                            <span id="final-score" class="value">0</span>
+                        </div>
+                        <div class="score-item">
+                            <span class="label">WAVE REACHED:</span>
+                            <span id="final-wave" class="value">1</span>
+                        </div>
+                        <div class="score-item">
+                            <span class="label">ENEMIES DESTROYED:</span>
+                            <span id="enemies-destroyed" class="value">0</span>
+                        </div>
+                        <div class="score-item">
+                            <span class="label">HIGHEST COMBO:</span>
+                            <span id="highest-combo" class="value">x1</span>
+                        </div>
+                    </div>
+                    <div id="achievements-earned" class="achievements-section hidden">
+                        <h4>ACHIEVEMENTS UNLOCKED</h4>
+                        <div id="achievements-list" class="achievements-list"></div>
+                    </div>
+                    <div id="high-score-message" class="high-score-message hidden">NEW HIGH SCORE!</div>
+                    <button id="restart-btn" class="btn btn-primary">PLAY AGAIN</button>
+                    <button id="menu-btn-2" class="btn btn-secondary">MAIN MENU</button>
+                </div>
+            </div>
+            
+            <!-- Settings Screen -->
+            <div id="settings-screen" class="screen">
+                <div class="screen-content">
+                    <div class="title">SETTINGS</div>
+                    
+                    <div class="settings-group">
+                        <label class="setting-item">
+                            <span class="label">Sound Effects</span>
+                            <input type="checkbox" id="sound-toggle" class="toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <label class="setting-item">
+                            <span class="label">Dark Mode</span>
+                            <input type="checkbox" id="dark-mode-toggle" class="toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <label class="setting-item">
+                            <span class="label">Show Controls on Mobile</span>
+                            <input type="checkbox" id="mobile-controls-toggle" class="toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="settings-info">
+                        <h4>High Scores</h4>
+                        <div id="high-scores-list" class="high-scores-list">
+                            <p>No scores yet. Play to record your best!</p>
+                        </div>
+                    </div>
+                    
+                    <button id="clear-scores-btn" class="btn btn-small">Clear High Scores</button>
+                    <button id="install-btn" class="btn btn-secondary hidden">Install App</button>
+                    <button id="back-btn" class="btn btn-secondary">BACK</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Level Up Pop-up Notification -->
+        <div id="levelup-popup" class="levelup-popup hidden">
+            <div class="popup-content">
+                <div class="popup-wave">LEVEL</div>
+                <div class="popup-number" id="popup-wave-num">2</div>
+                <div class="popup-text">REACHED!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(reg => console.log('✅ Service Worker registered'))
+                    .catch(err => console.log('❌ Service Worker registration failed:', err));
+            });
+        }
+    </script>
+
+    <!-- Game Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/bullet.js"></script>
+    <script src="js/enemy.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
