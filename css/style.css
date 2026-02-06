@@ -1021,7 +1021,7 @@ html, body {
 .pause-button-container {
     position: absolute;
     top: 15px;
-    left: 15px;
+    right: 15px;
     z-index: 20;
     pointer-events: auto;
 }
@@ -1054,7 +1054,7 @@ html, body {
 @media (max-width: 768px) {
     .pause-button-container {
         top: 15px;
-        left: 15px;
+        right: 15px;
     }
     
     .btn-pause {
@@ -1109,7 +1109,7 @@ html, body {
 @media (max-width: 480px) {
     .pause-button-container {
         top: 12px;
-        left: 8px;
+        right: 8px;
     }
     
     .btn-pause {
@@ -1205,7 +1205,7 @@ html, body {
 
     .pause-button-container {
         top: 12px;
-        left: 8px;
+        right: 8px;
     }
 
     .btn-pause {
