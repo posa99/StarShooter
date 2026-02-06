@@ -323,21 +323,21 @@ class SpaceShooterGame {
             if (this.state === 'playing' && this.player) {
                 this.player.isShooting = true;
             }
-        });
+        }, { passive: false });
 
         attackBtn.addEventListener('touchend', (e) => {
             e.preventDefault();
             if (this.player) {
                 this.player.isShooting = false;
             }
-        });
+        }, { passive: false });
 
         attackBtn.addEventListener('touchcancel', (e) => {
             e.preventDefault();
             if (this.player) {
                 this.player.isShooting = false;
             }
-        });
+        }, { passive: false });
     }
 
     /**
