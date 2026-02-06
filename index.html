@@ -113,7 +113,20 @@
                     <button id="pause-btn" class="btn btn-pause">PAUSE</button>
                 </div>
                 <div id="touch-controls" class="touch-controls hidden">
-                    <div id="touch-zone" class="touch-zone">
+                    <div class="mobile-controls-container">
+                        <!-- Joystick for Movement -->
+                        <div class="joystick-container">
+                            <div class="joystick-bg">
+                                <div id="joystick" class="joystick-stick"></div>
+                            </div>
+                            <div class="joystick-label">MOVE</div>
+                        </div>
+                        <!-- Attack Button -->
+                        <div class="attack-button-container">
+                            <button id="attack-btn" class="attack-button">SHOOT</button>
+                        </div>
+                    </div>
+                    <div id="touch-zone" class="touch-zone hidden">
                         <div class="touch-instructions">TAP & HOLD to move • HOLD LONGER to shoot</div>
                     </div>
                 </div>

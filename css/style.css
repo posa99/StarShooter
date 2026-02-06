@@ -607,8 +607,108 @@ html, body {
 }
 
 /* ===================================
-   Creator Information
+   Mobile Controls - Joystick & Attack Button
    =================================== */
+
+.mobile-controls-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+    padding: 0 15px 15px 15px;
+}
+
+/* Joystick Styling */
+.joystick-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.joystick-label {
+    color: var(--color-primary);
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.joystick-bg {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle at 30% 30%, rgba(0, 212, 255, 0.3), rgba(0, 212, 255, 0.1));
+    border: 3px solid var(--color-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3), inset 0 0 10px rgba(0, 212, 255, 0.1);
+    touch-action: none;
+}
+
+.joystick-stick {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle at 30% 30%, var(--color-primary), rgba(0, 212, 255, 0.7));
+    border: 2px solid rgba(0, 212, 255, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.05s ease;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.joystick-stick.active {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+}
+
+/* Attack Button Styling */
+.attack-button-container {
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+}
+
+.attack-button {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 3px solid var(--color-accent);
+    background: radial-gradient(circle at 30% 30%, var(--color-accent), rgba(255, 0, 110, 0.7));
+    color: white;
+    font-weight: bold;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    box-shadow: 0 0 15px rgba(255, 0, 110, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.attack-button:hover {
+    box-shadow: 0 0 25px rgba(255, 0, 110, 0.6);
+    transform: scale(1.05);
+}
+
+.attack-button:active {
+    box-shadow: 0 0 30px rgba(255, 0, 110, 0.8);
+    transform: scale(0.95);
+}
+
+
 
 .creator-info {
     background: rgba(0, 212, 255, 0.05);
@@ -906,7 +1006,7 @@ html, body {
 /* Pause Button Container */
 .pause-button-container {
     position: absolute;
-    top: 15px;
+    bottom: 20px;
     right: 15px;
     z-index: 15;
 }
@@ -938,7 +1038,7 @@ html, body {
 /* Responsive Design for Mobile */
 @media (max-width: 768px) {
     .pause-button-container {
-        top: 10px;
+        bottom: 15px;
         right: 10px;
     }
     
@@ -965,11 +1065,32 @@ html, body {
     .hud-item .value {
         font-size: 14px;
     }
+
+    .mobile-controls-container {
+        gap: 15px;
+        padding: 0 12px 12px 12px;
+    }
+
+    .joystick-bg {
+        width: 90px;
+        height: 90px;
+    }
+
+    .joystick-stick {
+        width: 35px;
+        height: 35px;
+    }
+
+    .attack-button {
+        width: 80px;
+        height: 80px;
+        font-size: 0.7rem;
+    }
 }
 
 @media (max-width: 480px) {
     .pause-button-container {
-        top: 8px;
+        bottom: 10px;
         right: 8px;
     }
     
@@ -993,7 +1114,33 @@ html, body {
         flex: 1;
         min-width: 80px;
     }
-    
+
+    .mobile-controls-container {
+        gap: 12px;
+        padding: 0 8px 8px 8px;
+    }
+
+    .joystick-bg {
+        width: 75px;
+        height: 75px;
+        border-width: 2px;
+    }
+
+    .joystick-stick {
+        width: 30px;
+        height: 30px;
+        border-width: 1.5px;
+    }
+
+    .joystick-label {
+        font-size: 0.65rem;
+    }
+
+    .attack-button {
+        width: 70px;
+        height: 70px;
+        font-size: 0.65rem;
+        border-width: 2px;
     .health-bar {
         width: 60px;
     }
@@ -1007,6 +1154,38 @@ html, body {
         left: 10px;
         right: 10px;
         height: 120px;
+    }
+
+    .mobile-controls-container {
+        gap: 10px;
+        padding: 0 8px 8px 8px;
+    }
+
+    .joystick-bg {
+        width: 65px;
+        height: 65px;
+        border-width: 2px;
+    }
+
+    .joystick-stick {
+        width: 25px;
+        height: 25px;
+    }
+
+    .joystick-label {
+        font-size: 0.6rem;
+    }
+
+    .attack-button {
+        width: 65px;
+        height: 65px;
+        font-size: 0.6rem;
+        border-width: 2px;
+    }
+
+    .pause-button-container {
+        bottom: 145px;
+        right: 8px;
     }
 
     .touch-zone {
@@ -1026,11 +1205,6 @@ html, body {
         padding: 5px 8px;
         flex: 0 0 calc(33.333% - 5px);
         min-width: unset;
-    }
-
-    .pause-button-container {
-        top: 5px;
-        right: 5px;
     }
 
     .btn-pause {

@@ -126,6 +126,10 @@ class SpaceShooterGame {
             this.updateMobileControls();
         });
 
+        // Joystick and Attack Button Handlers
+        this.setupJoystickControls();
+        this.setupAttackButton();
+
         document.getElementById('clear-scores-btn').addEventListener('click', () => {
             if (confirm('Clear all high scores?')) {
                 this.storage.clearHighScores();
@@ -195,6 +199,124 @@ class SpaceShooterGame {
             document.body.classList.add('light-mode');
         }
         document.getElementById('dark-mode-toggle').checked = darkMode;
+    }
+
+    /**
+     * Setup joystick controls for mobile
+     */
+    setupJoystickControls() {
+        const joystickBg = document.querySelector('.joystick-bg');
+        const joystickStick = document.getElementById('joystick');
+        let isJoystickActive = false;
+
+        if (!joystickBg) return;
+
+        const handleJoystickMove = (e) => {
+            if (!isJoystickActive) return;
+
+            const rect = joystickBg.getBoundingClientRect();
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            let clientX, clientY;
+            if (e.touches) {
+                clientX = e.touches[0].clientX - rect.left;
+                clientY = e.touches[0].clientY - rect.top;
+            } else {
+                clientX = e.clientX - rect.left;
+                clientY = e.clientY - rect.top;
+            }
+
+            const dx = clientX - centerX;
+            const dy = clientY - centerY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const maxDistance = rect.width / 2 - 20;
+
+            let moveX = dx;
+            let moveY = dy;
+
+            if (distance > maxDistance) {
+                const angle = Math.atan2(dy, dx);
+                moveX = Math.cos(angle) * maxDistance;
+                moveY = Math.sin(angle) * maxDistance;
+            }
+
+            joystickStick.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
+
+            // Update player movement based on joystick position
+            if (this.state === 'playing' && this.player) {
+                const angle = Math.atan2(moveY, moveX);
+                const magnitude = Math.min(distance / maxDistance, 1);
+                this.player.setJoystickInput(angle, magnitude);
+            }
+        };
+
+        const handleJoystickStart = (e) => {
+            isJoystickActive = true;
+            joystickStick.classList.add('active');
+            handleJoystickMove(e);
+        };
+
+        const handleJoystickEnd = () => {
+            isJoystickActive = false;
+            joystickStick.classList.remove('active');
+            joystickStick.style.transform = 'translate(-50%, -50%)';
+            if (this.state === 'playing' && this.player) {
+                this.player.setJoystickInput(0, 0);
+            }
+        };
+
+        // Mouse events
+        joystickBg.addEventListener('mousedown', handleJoystickStart);
+        document.addEventListener('mousemove', handleJoystickMove);
+        document.addEventListener('mouseup', handleJoystickEnd);
+
+        // Touch events
+        joystickBg.addEventListener('touchstart', handleJoystickStart);
+        document.addEventListener('touchmove', handleJoystickMove, { passive: false });
+        document.addEventListener('touchend', handleJoystickEnd);
+    }
+
+    /**
+     * Setup attack button for mobile
+     */
+    setupAttackButton() {
+        const attackBtn = document.getElementById('attack-btn');
+        if (!attackBtn) return;
+
+        const handleAttack = () => {
+            if (this.state === 'playing' && this.player) {
+                this.player.shoot();
+            }
+        };
+
+        attackBtn.addEventListener('mousedown', () => {
+            if (this.state === 'playing') {
+                this.player.isShooting = true;
+            }
+        });
+
+        attackBtn.addEventListener('mouseup', () => {
+            this.player.isShooting = false;
+        });
+
+        attackBtn.addEventListener('mouseleave', () => {
+            this.player.isShooting = false;
+        });
+
+        attackBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (this.state === 'playing' && this.player) {
+                this.player.isShooting = true;
+            }
+        });
+
+        attackBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            if (this.player) {
+                this.player.isShooting = false;
+            }
+        });
     }
 
     /**

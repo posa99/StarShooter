@@ -92,6 +92,20 @@ class Player {
     }
 
     /**
+     * Handle joystick input for mobile controls
+     */
+    setJoystickInput(angle, magnitude) {
+        if (magnitude === 0) {
+            this.vx = 0;
+            this.vy = 0;
+        } else {
+            this.vx = Math.cos(angle) * this.speed * magnitude;
+            this.vy = Math.sin(angle) * this.speed * magnitude;
+            this.targetRotation = angle;
+        }
+    }
+
+    /**
      * Update player state
      */
     update() {
