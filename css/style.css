@@ -594,6 +594,58 @@ html, body {
     font-weight: bold;
 }
 
+.touch-instructions {
+    text-align: center;
+    line-height: 1.5;
+    padding: 10px;
+}
+
+.touch-instructions {
+    text-align: center;
+    line-height: 1.5;
+    padding: 10px;
+}
+
+/* ===================================
+   Creator Information
+   =================================== */
+
+.creator-info {
+    background: rgba(0, 212, 255, 0.05);
+    border: 2px solid rgba(0, 212, 255, 0.3);
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 20px;
+    font-size: 0.85rem;
+    text-align: left;
+}
+
+.creator-title {
+    color: var(--color-primary);
+    font-weight: bold;
+    font-size: 0.95rem;
+    text-align: center;
+    margin-bottom: 10px;
+    text-shadow: 0 0 5px rgba(0, 212, 255, 0.3);
+    letter-spacing: 1px;
+}
+
+.creator-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.creator-details p {
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.creator-details strong {
+    color: var(--color-primary);
+}
+
 /* ===================================
    Responsive Design
    =================================== */
@@ -636,6 +688,14 @@ html, body {
     #pause-btn {
         width: 100%;
     }
+
+    .creator-info {
+        font-size: 0.75rem;
+    }
+
+    .creator-details p {
+        font-size: 0.75rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -677,6 +737,41 @@ html, body {
 
     .value {
         font-size: 1rem;
+    }
+
+    .creator-info {
+        padding: 12px;
+        margin-top: 15px;
+        font-size: 0.7rem;
+    }
+
+    .creator-title {
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+    }
+
+    .creator-details {
+        gap: 6px;
+    }
+
+    .creator-details p {
+        font-size: 0.7rem;
+        line-height: 1.3;
+    }
+
+    .instructions-panel {
+        padding: 8px;
+        margin: 10px 0;
+    }
+
+    .instructions-section {
+        margin-bottom: 6px;
+        font-size: 0.7rem;
+    }
+
+    .instructions-section h3 {
+        font-size: 0.75rem;
+        margin-bottom: 2px;
     }
 }
 
@@ -903,6 +998,79 @@ html, body {
         width: 60px;
     }
 }
+
+/* Portrait Mode Optimization for Mobile Devices */
+@media (max-height: 700px) and (max-width: 480px) {
+    /* Portrait mode adjustments */
+    .touch-controls {
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        height: 120px;
+    }
+
+    .touch-zone {
+        font-size: 0.7rem;
+    }
+
+    .hud {
+        top: 50px;
+        left: 8px;
+        right: 8px;
+        gap: 5px;
+        flex-wrap: wrap;
+    }
+
+    .hud-item {
+        font-size: 10px;
+        padding: 5px 8px;
+        flex: 0 0 calc(33.333% - 5px);
+        min-width: unset;
+    }
+
+    .pause-button-container {
+        top: 5px;
+        right: 5px;
+    }
+
+    .btn-pause {
+        min-width: 65px;
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+
+    .health-bar {
+        width: 50px;
+        height: 12px;
+    }
+
+    .power-ups-display {
+        top: 140px;
+        right: 10px;
+    }
+
+    .power-up-item {
+        font-size: 0.65rem;
+        padding: 4px 8px;
+        min-width: 70px;
+    }
+}
+
+/* Ultra-wide mobile portrait (tablet in portrait mode) */
+@media (max-height: 600px) and (max-width: 600px) {
+    .touch-controls {
+        height: 100px;
+    }
+
+    .touch-zone {
+        font-size: 0.65rem;
+    }
+
+    .hud-item {
+        flex: 0 0 calc(25% - 5px);
+    }
+}
+
 @media print {
     * {
         display: none;
