@@ -97,6 +97,15 @@ class SpaceShooterGame {
             }
         }, { passive: false });
 
+        // Page visibility (pause on mobile when tab backgrounded)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                if (this.state === 'playing') {
+                    this.togglePause();
+                }
+            }
+        });
+
         // Window resize
         window.addEventListener('resize', () => this.resizeCanvas());
 
