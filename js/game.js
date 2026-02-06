@@ -208,6 +208,7 @@ class SpaceShooterGame {
         const joystickBg = document.querySelector('.joystick-bg');
         const joystickStick = document.getElementById('joystick');
         let isJoystickActive = false;
+        let joystickTouchId = null;
 
         if (!joystickBg) return;
 
@@ -220,8 +221,18 @@ class SpaceShooterGame {
 
             let clientX, clientY;
             if (e.touches) {
-                clientX = e.touches[0].clientX - rect.left;
-                clientY = e.touches[0].clientY - rect.top;
+                // Find the correct touch point
+                let touchFound = false;
+                for (let i = 0; i < e.touches.length; i++) {
+                    const touch = e.touches[i];
+                    if (joystickTouchId === null || touch.identifier === joystickTouchId) {
+                        clientX = touch.clientX - rect.left;
+                        clientY = touch.clientY - rect.top;
+                        touchFound = true;
+                        break;
+                    }
+                }
+                if (!touchFound) return;
             } else {
                 clientX = e.clientX - rect.left;
                 clientY = e.clientY - rect.top;
@@ -254,11 +265,15 @@ class SpaceShooterGame {
         const handleJoystickStart = (e) => {
             isJoystickActive = true;
             joystickStick.classList.add('active');
+            if (e.touches) {
+                joystickTouchId = e.touches[0].identifier;
+            }
             handleJoystickMove(e);
         };
 
         const handleJoystickEnd = () => {
             isJoystickActive = false;
+            joystickTouchId = null;
             joystickStick.classList.remove('active');
             joystickStick.style.transform = 'translate(-50%, -50%)';
             if (this.state === 'playing' && this.player) {
@@ -275,6 +290,7 @@ class SpaceShooterGame {
         joystickBg.addEventListener('touchstart', handleJoystickStart);
         document.addEventListener('touchmove', handleJoystickMove, { passive: false });
         document.addEventListener('touchend', handleJoystickEnd);
+        document.addEventListener('touchcancel', handleJoystickEnd);
     }
 
     /**
@@ -284,24 +300,22 @@ class SpaceShooterGame {
         const attackBtn = document.getElementById('attack-btn');
         if (!attackBtn) return;
 
-        const handleAttack = () => {
-            if (this.state === 'playing' && this.player) {
-                this.player.shoot();
-            }
-        };
-
         attackBtn.addEventListener('mousedown', () => {
-            if (this.state === 'playing') {
+            if (this.state === 'playing' && this.player) {
                 this.player.isShooting = true;
             }
         });
 
         attackBtn.addEventListener('mouseup', () => {
-            this.player.isShooting = false;
+            if (this.player) {
+                this.player.isShooting = false;
+            }
         });
 
         attackBtn.addEventListener('mouseleave', () => {
-            this.player.isShooting = false;
+            if (this.player) {
+                this.player.isShooting = false;
+            }
         });
 
         attackBtn.addEventListener('touchstart', (e) => {
@@ -317,15 +331,21 @@ class SpaceShooterGame {
                 this.player.isShooting = false;
             }
         });
+
+        attackBtn.addEventListener('touchcancel', (e) => {
+            e.preventDefault();
+            if (this.player) {
+                this.player.isShooting = false;
+            }
+        });
     }
 
     /**
      * Update mobile controls visibility
      */
     updateMobileControls() {
-        const enabled = this.storage.getMobileControls();
         const controls = document.getElementById('touch-controls');
-        if (enabled && isMobileDevice()) {
+        if (isMobileDevice()) {
             controls.classList.remove('hidden');
         } else {
             controls.classList.add('hidden');
